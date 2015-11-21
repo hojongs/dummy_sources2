@@ -10,12 +10,20 @@ sock = socket(AF_INET, SOCK_STREAM)
 sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 sock.bind((host,port))
 sock.listen(1)
-conn,addr = sock.accept() #conn=sock, addr=(host,port)
-print addr
-buf=""
-while not buf:
-    buf = conn.recv(1024)
-    conn.send(buf)
-conn.close()
-print buf
+while True: # In Listening&Accept
+	print "Listening..."
+	conn,addr = sock.accept() #conn=sock, addr=(host,port)
+	print "Connected"
+	print addr
+	buf=""
+	while True: #In Connect
+		buf = conn.recv(1024)
+		if buf:
+			print buf
+			print len(buf)
+		else:
+			print "Connection Finished"
+			break
+		conn.send(buf)
+	conn.close()
 
